@@ -56,3 +56,14 @@ async function saveHistory(record) {
         console.error("Error saving history:", error);
     }
 }
+
+// GET HISTORY
+async function getHistory() {
+    try {
+        const res = await fetch(`${BASE_URL}/history?_sort=timestamp&_order=desc`);
+        return await res.json();
+    } catch (error) {
+        console.error("Error loading history:", error);
+        return []; // important (as per use case)
+    }
+}

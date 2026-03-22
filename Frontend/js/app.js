@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", async () => {
-    // State
+
     const state = {
         type: "Length",
         action: "Conversion",
@@ -10,29 +10,20 @@ document.addEventListener("DOMContentLoaded", async () => {
         operator: "+"
     };
 
-    // Attach listeners (later)
     console.log("Event listeners attached");
 
-    // Fetch units (UC-03)
+    // UC-03
     const units = await getUnits(state.type);
     console.log("Units:", units);
 
-    console.log("Loading units for", state.type);
-
-    // Set default active UI
+    // Default UI
     document.querySelectorAll(".card")[0].classList.add("active");
-    document.querySelectorAll(".action-box button")[1].classList.add("active-btn"); 
-    // index 1 = Conversion
+    document.querySelectorAll(".action-box button")[1].classList.add("active-btn");
 
-    // Load history (later)
+    // UC-06 
     console.log("Loading history...");
-
-    // =====================================================
-    // UC-04 TEST: Fetch conversion
-    // =====================================================
-
-    const conversion = await getConversion("kg", "g");
-    console.log("Conversion:", conversion);
+    const history = await getHistory();
+    console.log("History:", history);
 
     await saveHistory({
     type: "Length",
@@ -40,6 +31,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     expression: "1 km → m",
     result: 1000,
     timestamp: new Date().toISOString()
-    });
+});
 
 });
