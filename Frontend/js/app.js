@@ -14,6 +14,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     // STEP 2: Attach listeners (we'll implement later)
     console.log("Event listeners attached");
 
+    const units = await getUnits("Length");
+    console.log("Units:", units);
+
     // STEP 3: Load default units
     console.log("Loading units for Length");
 
