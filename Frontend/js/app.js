@@ -12,20 +12,23 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     console.log("Event listeners attached");
 
-    // UC-03
+    // ✅ GET UNITS (only once)
     const units = await getUnits(state.type);
     console.log("Units:", units);
 
-    // Default UI
+    // ✅ POPULATE DROPDOWN
+    const fromSelect = document.querySelector("#from-unit");
+    const toSelect = document.querySelector("#to-unit");
+
+    populateDropdown(fromSelect, units);
+    populateDropdown(toSelect, units);
+
+    // ✅ DEFAULT UI
     document.querySelectorAll(".card")[0].classList.add("active");
     document.querySelectorAll(".action-box button")[1].classList.add("active-btn");
 
-    // UC-06 
+    // ✅ LOAD HISTORY
     console.log("Loading history...");
     const history = await getHistory();
     console.log("History:", history);
-
-    //UC-09
-    const result = performArithmetic(10, 5, "+");
-    console.log("Arithmetic:", result);
 });
