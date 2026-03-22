@@ -34,4 +34,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     const conversion = await getConversion("kg", "g");
     console.log("Conversion:", conversion);
 
+    await saveHistory({
+    type: "Length",
+    action: "Conversion",
+    expression: "1 km → m",
+    result: 1000,
+    timestamp: new Date().toISOString()
+    });
+
 });
