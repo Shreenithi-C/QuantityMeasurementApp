@@ -30,8 +30,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     // -------------------------
     // DEFAULT ACTIVE (UC-11)
     // -------------------------
-    const defaultCard = cards[0];        // Length
-    const defaultAction = actionBtns[1]; // Conversion
+    const defaultCard = cards[0];
+    const defaultAction = actionBtns[1];
 
     setActive(typeContainer, defaultCard, ".card");
     setActive(actionContainer, defaultAction, "button");
@@ -71,16 +71,31 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     // -------------------------
-    // TYPE CLICK (UC-15 basic)
+    // TYPE CLICK (UC-15 FINAL)
     // -------------------------
     cards.forEach(card => {
         card.addEventListener("click", async () => {
 
-            setActive(typeContainer, card, ".card");
-
+            // 1. Update state
             state.type = card.innerText.trim();
             console.log("Type:", state.type);
 
+            // 2. Highlight UI
+            setActive(typeContainer, card, ".card");
+
+            // 3. CLEAR INPUTS
+            const inputs = document.querySelectorAll(".values input");
+            inputs[0].value = "";
+            inputs[1].value = "";
+
+            // 4. CLEAR RESULT
+            showResult("—", "");
+
+            // 5. RESET STATE
+            state.fromUnit = "";
+            state.toUnit = "";
+
+            // 6. RELOAD UNITS
             try {
                 const units = await getUnits(state.type);
 
@@ -94,7 +109,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     // -------------------------
-    // ACTION CLICK (UC-16 basic)
+    // ACTION CLICK (UC-16)
     // -------------------------
     actionBtns.forEach(btn => {
         btn.addEventListener("click", () => {
@@ -103,8 +118,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             setActive(actionContainer, btn, "button");
 
-            // UC-13: Toggle operator
+            // UC-13
             toggleOperators(state.action === "Arithmetic");
+
+            // CLEAR RESULT WHEN SWITCHING MODE
+            showResult("—", "");
 
             console.log("Action:", state.action);
         });
@@ -119,7 +137,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (selectedBtn && optionsBox) {
 
-        // open/close dropdown
         selectedBtn.addEventListener("click", (e) => {
             e.stopPropagation();
 
@@ -127,7 +144,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                 optionsBox.style.display === "block" ? "none" : "block";
         });
 
-        // select operator
         options.forEach(btn => {
             btn.addEventListener("click", (e) => {
                 e.stopPropagation();
@@ -143,9 +159,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             });
         });
 
-        // close when clicking outside
         document.addEventListener("click", () => {
             optionsBox.style.display = "none";
         });
     }
+
 });
