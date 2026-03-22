@@ -72,3 +72,14 @@ function showResult(value, unitSymbol) {
         valueEl.classList.remove("highlight");
     }, 1500);
 }
+
+function toggleOperators(show) {
+    const el = document.querySelector("#operator-selector");
+
+    if (!el) {
+        console.warn("Operator not found");
+        return;
+    }
+
+    el.style.display = show ? "flex" : "none";
+}

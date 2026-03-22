@@ -153,22 +153,44 @@ h4{
 
 /* ---------------- OPERATOR ---------------- */
 
-.operator-container{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex:0 0 80px;
+.operator-container {
+    display: none;
+    position: relative;
+    flex: 0 0 80px;
+    align-items: center;
+    justify-content: center;
 }
 
-.operator-btn{
-    width:60px;
-    height:60px;
-    font-size:26px;
-    border:none;
-    border-radius:12px;
-    background:white;
-    cursor:pointer;
-    margin-top:45px;
+.operator-btn {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    border-radius: 12px;
+    border: none;
+    background: #eee;
+    cursor: pointer;
+}
+
+/* hidden dropdown */
+.operator-options {
+    display: none;
+    position: absolute;
+    top: 70px;
+    background: white;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.operator-option {
+    display: block;
+    width: 50px;
+    height: 50px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 8px;
+    background: #eee;
+    cursor: pointer;
 }
 
 .highlight {
@@ -197,4 +219,12 @@ h4{
     cursor:pointer;
     font-size:16px;
     min-width:120px;
+}
+
+#operator-selector {
+    display: none;   /* hidden by default */
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 40px;
 }
