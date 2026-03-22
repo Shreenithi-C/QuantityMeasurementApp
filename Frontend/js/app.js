@@ -25,12 +25,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     const history = await getHistory();
     console.log("History:", history);
 
-    await saveHistory({
-    type: "Length",
-    action: "Conversion",
-    expression: "1 km → m",
-    result: 1000,
-    timestamp: new Date().toISOString()
-});
+    //UC-07
+    const temp = applyConversion(10, { formula: "(x*9/5)+32" });
+    console.log("Temp:", temp);
 
 });
