@@ -24,17 +24,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     const fromSelect = document.querySelector("#from-unit");
     const toSelect = document.querySelector("#to-unit");
 
+    const cards = document.querySelectorAll(".card");
+    const actionBtns = document.querySelectorAll(".action-box button");
+
     // -------------------------
     // DEFAULT ACTIVE (UC-11)
     // -------------------------
-    const defaultCard = document.querySelectorAll(".card")[0]; // Length
-    const defaultAction = document.querySelectorAll(".action-box button")[1]; // Conversion
+    const defaultCard = cards[0];        // Length
+    const defaultAction = actionBtns[1]; // Conversion
 
     setActive(typeContainer, defaultCard, ".card");
     setActive(actionContainer, defaultAction, "button");
 
     // -------------------------
-    // UC-13: HIDE OPERATOR INITIALLY
+    // UC-13: HIDE OPERATOR INIT
     // -------------------------
     toggleOperators(false);
 
@@ -58,6 +61,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
         const history = await getHistory();
         console.log("History:", history);
+
+        if (typeof renderHistory === "function") {
+            renderHistory(history);
+        }
+
     } catch (err) {
         console.error("Error loading history:", err.message);
     }
@@ -65,7 +73,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // -------------------------
     // TYPE CLICK (UC-15 basic)
     // -------------------------
-    document.querySelectorAll(".card").forEach(card => {
+    cards.forEach(card => {
         card.addEventListener("click", async () => {
 
             setActive(typeContainer, card, ".card");
@@ -73,17 +81,22 @@ document.addEventListener("DOMContentLoaded", async () => {
             state.type = card.innerText.trim();
             console.log("Type:", state.type);
 
-            // reload units when type changes
-            const units = await getUnits(state.type);
-            populateDropdown(fromSelect, units);
-            populateDropdown(toSelect, units);
+            try {
+                const units = await getUnits(state.type);
+
+                populateDropdown(fromSelect, units);
+                populateDropdown(toSelect, units);
+
+            } catch (err) {
+                console.error("Error reloading units:", err.message);
+            }
         });
     });
 
     // -------------------------
     // ACTION CLICK (UC-16 basic)
     // -------------------------
-    document.querySelectorAll(".action-box button").forEach(btn => {
+    actionBtns.forEach(btn => {
         btn.addEventListener("click", () => {
 
             state.action = btn.innerText.trim();
@@ -106,28 +119,33 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (selectedBtn && optionsBox) {
 
-        // Toggle dropdown
-        selectedBtn.addEventListener("click", () => {
+        // open/close dropdown
+        selectedBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+
             optionsBox.style.display =
                 optionsBox.style.display === "block" ? "none" : "block";
         });
 
-        // Select operator
+        // select operator
         options.forEach(btn => {
-            btn.addEventListener("click", () => {
-                selectedBtn.textContent = btn.textContent;
-                state.operator = btn.textContent;
+            btn.addEventListener("click", (e) => {
+                e.stopPropagation();
+
+                const op = btn.textContent.trim();
+
+                selectedBtn.textContent = op;
+                state.operator = op;
+
                 optionsBox.style.display = "none";
 
                 console.log("Operator:", state.operator);
             });
         });
 
-        // Close when clicking outside
-        document.addEventListener("click", (e) => {
-            if (!e.target.closest("#operator-selector")) {
-                optionsBox.style.display = "none";
-            }
+        // close when clicking outside
+        document.addEventListener("click", () => {
+            optionsBox.style.display = "none";
         });
     }
 });
