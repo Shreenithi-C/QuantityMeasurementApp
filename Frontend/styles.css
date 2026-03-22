@@ -170,39 +170,3 @@ h4{
     cursor:pointer;
     margin-top:45px;
 }
-
-/* ---------------- RESULT ---------------- */
-
-.result{
-    margin-top:40px;
-    background:white;
-    padding:20px 30px;
-    border-left:6px solid #00c896;
-    border-radius:15px;
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    width:100%;
-}
-
-.result-left span{
-    font-size:14px;
-    color:#666;
-    font-weight:500;
-}
-
-.result-left h2{
-    margin-top:8px;
-    font-size:36px;
-    color:#7f00ff;
-}
-
-/* dropdown right side */
-.result-right select{
-    padding:10px 20px;
-    border-radius:8px;
-    border:1px solid #ddd;
-    background:white;
-    cursor:pointer;
-}

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <title>Quantity Measurement</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="./styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -20,7 +20,7 @@
             <img src="../images/length.png">
             <p>Length</p>
         </div>
-        <div class="card active">
+        <div class="card">
             <img src="../images/weight.png">
             <p>Weight</p>
         </div>
@@ -40,7 +40,7 @@
     <div class="action-box">
         <button>Comparison</button>
         <button>Conversion</button>
-        <button class="active-btn">Arithmetic</button>
+        <button>Arithmetic</button>
     </div>
 
 
@@ -48,7 +48,7 @@
 
         <!-- VALUE 1 -->
         <div class="value">
-            <label>VALUE 1</label>
+            <label>FROM</label>
 
             <div class="combined-box">
                 <input type="number" value="1">
@@ -69,7 +69,7 @@
 
         <!-- VALUE 2 -->
         <div class="value">
-            <label>VALUE 2</label>
+            <label>TO</label>
 
             <div class="combined-box">
                 <input type="number" value="1">
@@ -85,24 +85,10 @@
 
     </div>
 
-    <div class="result">
-
-        <div class="result-left">
-            <p>RESULT</p>
-            <h2>2</h2>
-        </div>
-
-        <div class="result-right">
-            <select>
-                <option>Kilogram</option>
-                <option>Gram</option>
-                <option>Ton</option>
-                <option>Pound</option>
-                <option>Ounce</option>
-            </select>
-        </div>
-
-    </div>
 </div>
+    <script src="./js/conversion.js"></script>
+    <script src="./js/api.js"></script>
+    <script src="./js/ui.js"></script>
+    <script src="./js/app.js"></script>
 </body>
 </html>
