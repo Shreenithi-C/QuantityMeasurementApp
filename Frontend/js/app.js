@@ -25,8 +25,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     const history = await getHistory();
     console.log("History:", history);
 
-    //UC-07
-    const temp = applyConversion(10, { formula: "(x*9/5)+32" });
-    console.log("Temp:", temp);
+    //UC-08
+    const result = compareValues(
+    1, "km",
+    500, "m",
+    1000,   // base1 (1 km → 1000 m)
+    500     // base2 (500 m → 500 m)
+    );
 
+    console.log("Compare:", result);
 });

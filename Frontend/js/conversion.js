@@ -27,3 +27,24 @@ function applyConversion(value, convObj) {
 
     throw new Error("Invalid conversion object");
 }
+
+function compareValues(v1, u1, v2, u2, base1, base2) {
+
+    // invalid check
+    if (!Number.isFinite(v1) || !Number.isFinite(v2)) {
+        return "Invalid values — cannot compare";
+    }
+
+    // GREATER
+    if (base1 > base2) {
+        return `${v1} ${u1} is GREATER than ${v2} ${u2}`;
+    }
+
+    // LESS
+    if (base1 < base2) {
+        return `${v1} ${u1} is LESS than ${v2} ${u2}`;
+    }
+
+    // EQUAL
+    return `${v1} ${u1} is EQUAL to ${v2} ${u2}`;
+}
