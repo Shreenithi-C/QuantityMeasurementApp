@@ -75,4 +75,5 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     });
 
+    // showResult(1000, "m");
 });

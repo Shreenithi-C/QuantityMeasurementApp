@@ -170,3 +170,31 @@ h4{
     cursor:pointer;
     margin-top:45px;
 }
+
+.highlight {
+    animation: flash 1.5s;
+}
+
+@keyframes flash {
+    0% { color: #7f00ff; }
+    50% { color: #00c896; }
+    100% { color: #7f00ff; }
+}
+
+.result{
+    padding:25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    width:100%;
+}
+
+.result-right select{
+    padding:10px 20px;
+    border-radius:8px;
+    border:1px solid #ddd;
+    background:white;
+    cursor:pointer;
+    font-size:16px;
+    min-width:120px;
+}

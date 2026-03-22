@@ -43,3 +43,32 @@ function setActive(parentEl, clickedEl, childSelector) {
         clickedEl.classList.add("active-btn");
     }
 }
+
+function showResult(value, unitSymbol) {
+
+    const valueEl = document.querySelector("#result-value");
+    const unitEl = document.querySelector("#result-unit");
+
+    if (!valueEl || !unitEl) {
+        console.warn("Result elements not found");
+        return;
+    }
+
+    // handle null
+    if (value === null || value === undefined) {
+        valueEl.textContent = "—";
+        unitEl.textContent = "";
+        return;
+    }
+
+    // set values
+    valueEl.textContent = value;
+    unitEl.textContent = unitSymbol || "";
+
+    // highlight effect
+    valueEl.classList.add("highlight");
+
+    setTimeout(() => {
+        valueEl.classList.remove("highlight");
+    }, 1500);
+}
