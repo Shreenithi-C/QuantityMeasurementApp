@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Quantity Measurement</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header>
+    <h1>Welcome To Quantity Measurement</h1>
+</header>
+
+<div class="container">
+
+    <h4>CHOOSE TYPE</h4>
+    
+    <div class="type-box">
+        <div class="card">
+            <img src="../images/length.png">
+            <p>Length</p>
+        </div>
+        <div class="card active">
+            <img src="../images/weight.png">
+            <p>Weight</p>
+        </div>
+        <div class="card">
+            <img src="../images/temperature.png">
+            <p>Temperature</p>
+        </div>
+        <div class="card">
+            <img src="../images/volume.png">
+            <p>Volume</p>
+        </div>
+    </div>
+
+
+    <h4>CHOOSE ACTION</h4>
+
+    <div class="action-box">
+        <button>Comparison</button>
+        <button>Conversion</button>
+        <button class="active-btn">Arithmetic</button>
+    </div>
+
+
+    <div class="values">
+
+        <!-- VALUE 1 -->
+        <div class="value">
+            <label>VALUE 1</label>
+
+            <div class="combined-box">
+                <input type="number" value="1">
+                <select>
+                    <option>Kilogram</option>
+                    <option>Gram</option>
+                    <option>Ton</option>
+                    <option>Pound</option>
+                    <option>Ounce</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- OPERATOR -->
+        <div class="operator-container">
+            <button class="operator-btn">+</button>
+        </div>
+
+        <!-- VALUE 2 -->
+        <div class="value">
+            <label>VALUE 2</label>
+
+            <div class="combined-box">
+                <input type="number" value="1">
+                <select>
+                    <option>Kilogram</option>
+                    <option>Gram</option>
+                    <option>Ton</option>
+                    <option>Pound</option>
+                    <option>Ounce</option>
+                </select>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="result">
+
+        <div class="result-left">
+            <p>RESULT</p>
+            <h2>2</h2>
+        </div>
+
+        <div class="result-right">
+            <select>
+                <option>Kilogram</option>
+                <option>Gram</option>
+                <option>Ton</option>
+                <option>Pound</option>
+                <option>Ounce</option>
+            </select>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>
