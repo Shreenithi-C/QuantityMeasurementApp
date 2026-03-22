@@ -25,13 +25,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const history = await getHistory();
     console.log("History:", history);
 
-    //UC-08
-    const result = compareValues(
-    1, "km",
-    500, "m",
-    1000,   // base1 (1 km → 1000 m)
-    500     // base2 (500 m → 500 m)
-    );
-
-    console.log("Compare:", result);
+    //UC-09
+    const result = performArithmetic(10, 5, "+");
+    console.log("Arithmetic:", result);
 });
