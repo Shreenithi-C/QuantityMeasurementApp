@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", async () => {
-
-    // STEP 1: Create state
+    // State
     const state = {
         type: "Length",
         action: "Conversion",
@@ -11,23 +10,28 @@ document.addEventListener("DOMContentLoaded", async () => {
         operator: "+"
     };
 
-    // STEP 2: Attach listeners (we'll implement later)
+    // Attach listeners (later)
     console.log("Event listeners attached");
 
-    const units = await getUnits("Length");
+    // Fetch units (UC-03)
+    const units = await getUnits(state.type);
     console.log("Units:", units);
 
-    // STEP 3: Load default units
-    console.log("Loading units for Length");
+    console.log("Loading units for", state.type);
 
-    // STEP 4: Set default UI active
-    document.querySelector(".card").classList.add("active");
-    document.querySelector(".action-box button").classList.add("active-btn");
+    // Set default active UI
+    document.querySelectorAll(".card")[0].classList.add("active");
+    document.querySelectorAll(".action-box button")[1].classList.add("active-btn"); 
+    // index 1 = Conversion
 
-    // STEP 5: Hide operator
-    document.querySelector(".operator-container").style.display = "none";
-
-    // STEP 6: Load history
+    // Load history (later)
     console.log("Loading history...");
+
+    // =====================================================
+    // UC-04 TEST: Fetch conversion
+    // =====================================================
+
+    const conversion = await getConversion("kg", "g");
+    console.log("Conversion:", conversion);
 
 });
