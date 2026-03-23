@@ -34,11 +34,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     // -------------------------
     // DEFAULT ACTIVE (UC-11)
     // -------------------------
-    const defaultCard = cards[0];
-    const defaultAction = actionBtns[1];
-
-    setActive(typeContainer, defaultCard, ".card");
-    setActive(actionContainer, defaultAction, "button");
+    setActive(typeContainer, cards[0], ".card");
+    setActive(actionContainer, actionBtns[1], "button");
 
     // -------------------------
     // UC-13: HIDE OPERATOR INIT
@@ -61,9 +58,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // -------------------------
     try {
         const history = await getHistory();
-        if (typeof renderHistory === "function") {
-            renderHistory(history);
-        }
+        renderHistory(history);
     } catch (err) {
         console.error("Error loading history:", err.message);
     }
@@ -74,25 +69,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     cards.forEach(card => {
         card.addEventListener("click", async () => {
 
-            // 1. Update state
             state.type = card.innerText.trim();
-            console.log("Type:", state.type);
-
-            // 2. Highlight UI
             setActive(typeContainer, card, ".card");
 
-            // 3. Clear inputs
+            // Clear inputs + result
             fromInput.value = "";
             toInput.value = "";
-
-            // 4. Clear result
             showResult("—", "");
 
-            // 5. Reset units in state
             state.fromUnit = "";
             state.toUnit = "";
 
-            // 6. Reload units
             try {
                 const units = await getUnits(state.type);
                 populateDropdown(fromSelect, units);
@@ -109,20 +96,22 @@ document.addEventListener("DOMContentLoaded", async () => {
     actionBtns.forEach(btn => {
         btn.addEventListener("click", () => {
 
-            // 1. Update state
             state.action = btn.innerText.trim();
-            console.log("Action:", state.action);
-
-            // 2. Highlight UI
             setActive(actionContainer, btn, "button");
 
-            // 3. Toggle operator row
             toggleOperators(state.action === "Arithmetic");
 
-            // 4. Clear result
             showResult("—", "");
         });
     });
+
+    // -------------------------
+    // UC-17: EVENT TRIGGERS
+    // -------------------------
+    fromInput.addEventListener("input", calculate);
+    toInput.addEventListener("input", calculate);
+    fromSelect.addEventListener("change", calculate);
+    toSelect.addEventListener("change", calculate);
 
     // -------------------------
     // OPERATOR DROPDOWN
@@ -133,14 +122,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (selectedBtn && optionsBox) {
 
-        // Open/close dropdown
         selectedBtn.addEventListener("click", (e) => {
             e.stopPropagation();
             optionsBox.style.display =
                 optionsBox.style.display === "block" ? "none" : "block";
         });
 
-        // Select operator
         options.forEach(btn => {
             btn.addEventListener("click", (e) => {
                 e.stopPropagation();
@@ -150,15 +137,122 @@ document.addEventListener("DOMContentLoaded", async () => {
                 state.operator = op;
 
                 optionsBox.style.display = "none";
-
-                console.log("Operator:", state.operator);
             });
         });
 
-        // Close on outside click
         document.addEventListener("click", () => {
             optionsBox.style.display = "none";
         });
     }
 
+    // -------------------------
+    // UC-17: CALCULATION LOGIC
+    // -------------------------
+    async function calculate() {
+
+        try {
+            state.fromVal = parseFloat(fromInput.value);
+            state.toVal = parseFloat(toInput.value);
+
+            state.fromUnit = fromSelect.value;
+            state.toUnit = toSelect.value;
+
+            // ✅ FIXED VALIDATION
+            if (isNaN(state.fromVal) || !state.fromUnit || !state.toUnit) {
+                return;
+            }
+
+            let result;
+            let expression = "";
+
+            // -------------------------
+            // CONVERSION
+            // -------------------------
+            if (state.action === "Conversion") {
+
+                const conv = await getConversion(state.fromUnit, state.toUnit);
+                result = applyConversion(state.fromVal, conv);
+
+                showResult(result, state.toUnit);
+
+                expression = `${state.fromVal} ${state.fromUnit} → ${state.toUnit}`;
+            }
+
+            // -------------------------
+            // COMPARISON
+            // -------------------------
+            else if (state.action === "Comparison") {
+
+                if (isNaN(state.toVal)) return;
+
+                if (state.fromVal > state.toVal) {
+                    result = `${state.fromVal} is GREATER than ${state.toVal}`;
+                } else if (state.fromVal < state.toVal) {
+                    result = `${state.fromVal} is LESS than ${state.toVal}`;
+                } else {
+                    result = `Both are EQUAL`;
+                }
+
+                showResult(result, "");
+
+                expression = `${state.fromVal} vs ${state.toVal}`;
+            }
+
+            // -------------------------
+            // ARITHMETIC
+            // -------------------------
+            else {
+
+                if (isNaN(state.toVal)) return;
+
+                let res;
+
+                switch (state.operator) {
+                    case "+":
+                        res = state.fromVal + state.toVal;
+                        break;
+                    case "-":
+                        res = state.fromVal - state.toVal;
+                        break;
+                    case "×":
+                        res = state.fromVal * state.toVal;
+                        break;
+                    case "÷":
+                        if (state.toVal === 0) throw new Error("Divide by zero");
+                        res = state.fromVal / state.toVal;
+                        break;
+                    default:
+                        throw new Error("Invalid operator");
+                }
+
+                result = parseFloat(res.toFixed(6));
+
+                showResult(result, state.fromUnit);
+
+                expression = `${state.fromVal} ${state.operator} ${state.toVal}`;
+            }
+
+            // -------------------------
+            // SAVE HISTORY (UC-05)
+            // -------------------------
+            const record = {
+                type: state.type,
+                action: state.action,
+                expression,
+                result,
+                timestamp: new Date().toISOString()
+            };
+
+            await saveHistory(record);
+
+            // -------------------------
+            // REFRESH HISTORY (UC-14)
+            // -------------------------
+            const history = await getHistory();
+            renderHistory(history);
+
+        } catch (e) {
+            showResult("Error: " + e.message, "");
+        }
+    }
 });
